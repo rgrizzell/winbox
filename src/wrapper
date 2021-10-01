@@ -324,7 +324,10 @@ if [ "$NEED_UPDATE" == "true" ]; then
     yad --progress --title="Preparing wine environment" \
       --width=400 --center --no-buttons --auto-close --auto-kill --on-top --pulsate
 
-   wine --version > $SNAP_USER_DATA/.version
+  # Apply font rendering workaround
+  wine reg add "HKEY_CURRENT_USER\\Software\\Wine\\X11 Driver" /v "ClientSideWithRender" /t "REG_SZ" /d "N" /f
+
+  wine --version > $SNAP_USER_DATA/.version
 else
   notify-send --icon "${SNAP}/meta/gui/icon.png" --expire-time=15000 "Winbox" "Winbox now is starting..."
 fi
